@@ -1,0 +1,37 @@
+{
+  "name": "secure-customer-portal",
+  "version": "1.0.0",
+  "description": "secure customer portal for users and admin panel for user management.",
+  "license": "ISC",
+  "author": "MBS",
+  "type": "module",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node src/server.mjs",
+    "dev": "nodemon src/server.mjs",
+    "seed:admin": "node src/scripts/seedAdmin.mjs"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^8.1.6",
+    "axios": "^1.13.2",
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.2",
+    "connect-mongo": "^6.0.0",
+    "cors": "^2.8.5",
+    "exceljs": "^4.4.0",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "express-session": "^1.18.2",
+    "fast-csv": "^5.0.5",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.1.1",
+    "morgan": "^1.10.1",
+    "multer": "^2.0.2",
+    "sendgrid": "^5.2.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^13.0.0",
+    "zod": "^4.3.2"
+  }
+}
