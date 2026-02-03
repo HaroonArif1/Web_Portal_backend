@@ -7,8 +7,8 @@ const envSchema = z.object({
   PORT: z.string().regex(/^\d+$/).transform(Number),
   MONGO_URI: z.string().min(1),
   SESSION_SECRET: z.string().min(16),
-  SENDGRID_API_KEY: z.string().min(1),
-  SENDGRID_FROM_EMAIL: z.string().email(),
+  SENDGRID_API_KEY: z.string().min(10),
+  SENDGRID_FROM_EMAIL: z.string(),
 
   JWT_SECRET: z.string().min(32),
   JWT_EXPIRES_IN: z.string(),

@@ -1,14 +1,15 @@
 import sgMail from '@sendgrid/mail';
+import { env } from '../config/env.mjs';
 
 
 // sgMail.setDataResidency('eu');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(env.SENDGRID_API_KEY);
 
 export const sendOTPEmail = async (email, otp) => {
   try{
     await sgMail.send({
       to: email,
-      from: process.env.SENDGRID_FROM_EMAIL,
+      from: env.SENDGRID_FROM_EMAIL,
       subject: 'OTP Code',
       text: `Your login OTP is:  ${otp}`
     });
