@@ -8,10 +8,12 @@ export const requestOTP = async (req, res) => {
   const { email } = req.body;
   const otp = generateOTP();
 
-  const user = await User.findOne({ email_address: email }).lean().exec();
+  const user = await User.findOne({ email_address: email, role: { $ne: 'ADMIN'} }).lean().exec();
+  console.log({user});
   if(!user)
-    return res.json({ message: 'User not exists with such email' });
+    return res.json({ message: 'User not exists with such email on marketplace' });
 
+  let message = 'One time Password (OTP) sent at your email';
   if(user && !user.otpHash) {
     await User.findOneAndUpdate(
       { email_address: email },
@@ -22,7 +24,7 @@ export const requestOTP = async (req, res) => {
     );
 
     await sendOTPEmail(email, otp);
-    return res.json({ message: 'OTP code sent at your email', payload: {} });
+    return res.json({ message, payload: {} });
   }
 
   return res.json({ message: '', payload: {} });
