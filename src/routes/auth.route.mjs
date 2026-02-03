@@ -1,5 +1,5 @@
 import express from 'express';
-import { validate, otpRateLimiter, authenticate } from '../middlewares/index.mjs';
+import { validate, authenticate } from '../middlewares/index.mjs';
 import { logout, requestOTP, verifyOTP } from '../controllers/auth.controller.mjs';
 import { requestOtpSchema, verifyOtpSchema } from '../validators/auth.schema.mjs';
 
@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post(
   '/request-otp',
-  otpRateLimiter,
+  // otpRateLimiter,
   validate(requestOtpSchema),
   requestOTP
 );
