@@ -13,7 +13,7 @@ export const requestOTP = async (req, res) => {
   if(!user)
     return res.status(404).json({ message: 'User not exists with such email on marketplace' });
 
-  let message = 'One time Password (OTP) sent at your email';
+  const message = 'One time Password (OTP) sent at your email';
   if(user && !user.otpHash) {
     await User.findOneAndUpdate(
       { email_address: email },
@@ -24,10 +24,9 @@ export const requestOTP = async (req, res) => {
     );
 
     await sendOTPEmail(email, otp);
-    return res.json({ message, payload: {} });
   }
 
-  return res.json({ message: '', payload: {} });
+  return res.json({ message, payload: {} });
 };
 
 export const verifyOTP = async (req, res) => {
