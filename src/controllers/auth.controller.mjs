@@ -9,7 +9,6 @@ export const requestOTP = async (req, res) => {
   const otp = generateOTP();
 
   const user = await User.findOne({ email_address: email, role: { $ne: 'ADMIN'} }).lean().exec();
-  console.log({user});
   if(!user)
     return res.status(404).json({ message: 'User not exists with such email on marketplace' });
 
