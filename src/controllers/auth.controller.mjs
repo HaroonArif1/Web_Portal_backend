@@ -13,20 +13,16 @@ export const requestOTP = async (req, res) => {
   if(!user)
     return res.status(404).json({ message: 'User not exists with such email on marketplace' });
 
-  const message = 'One time Password (OTP) sent at your email';
-  if(user && !user.otpHash) {
-    await User.findOneAndUpdate(
-      { email_address: email },
-      {
-        otpHash: hashOTP(otp),
-      },
-      { upsert: true }
-    );
+  await User.findOneAndUpdate(
+    { email_address: email },
+    {
+      otpHash: hashOTP(otp),
+    },
+    { upsert: true }
+  );
+  await sendOTPEmail(email, otp);
 
-    await sendOTPEmail(email, otp);
-  }
-
-  return res.json({ message, payload: {} });
+  return res.json({ message: 'One time Password (OTP) sent at your email', payload: {} });
 };
 
 export const verifyOTP = async (req, res) => {
@@ -51,7 +47,7 @@ export const verifyOTP = async (req, res) => {
     account_id: user.account_id,
   });
 
-  res.json({
+  return res.json({
     message: 'OTP verified successfully',
     payload: { token, user: data }
   });
