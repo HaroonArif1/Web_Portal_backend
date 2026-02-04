@@ -11,7 +11,7 @@ export const requestOTP = async (req, res) => {
   const user = await User.findOne({ email_address: email, role: { $ne: 'ADMIN'} }).lean().exec();
   console.log({user});
   if(!user)
-    return res.json({ message: 'User not exists with such email on marketplace' });
+    return res.status(404).json({ message: 'User not exists with such email on marketplace' });
 
   let message = 'One time Password (OTP) sent at your email';
   if(user && !user.otpHash) {
@@ -35,7 +35,7 @@ export const verifyOTP = async (req, res) => {
   const user = await User.findOne({ email_address: email });
 
   if (!user)
-    return res.status(404).json({ message: 'User not exists with such email' });
+    return res.status(404).json({ message: 'User not exists with such email on marketplace' });
 
   if (user.otpHash !== hashOTP(otp))
     return res.status(400).json({ message: 'Invalid OTP entered' });

@@ -3,9 +3,9 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import express from 'express';
 import bodyParser from 'body-parser';
-import session from 'express-session';
-import swaggerUi from 'swagger-ui-express';
-import { swaggerSpec, sessionConfig } from './config/index.mjs';
+// import session from 'express-session';
+// import swaggerUi from 'swagger-ui-express';
+// import { swaggerSpec, sessionConfig } from './config/index.mjs';
 import { authRoutes, userRoutes, adminRoutes, transferRoutes, webhookRoutes } from './routes/index.mjs';
 
 const app = express();
@@ -18,10 +18,10 @@ app.use(
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(session(sessionConfig));
-app.use(cors({ origin: true, credentials: true }));
+// app.use(session(sessionConfig));
+app.use(cors({ origin: "*" }));
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
