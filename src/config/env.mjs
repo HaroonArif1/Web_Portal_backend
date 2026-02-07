@@ -5,7 +5,7 @@ config();
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.string().regex(/^\d+$/).transform(Number),
-  MONGO_URI: z.string().min(1),
+  MONGO_URI: z.string().min(20),
   SESSION_SECRET: z.string().min(16),
   SENDGRID_API_KEY: z.string().min(10),
   SENDGRID_FROM_EMAIL: z.string(),

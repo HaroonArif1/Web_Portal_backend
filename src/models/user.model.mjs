@@ -2,7 +2,7 @@ import { model, Schema } from 'mongoose';
 
 const userSchema = new Schema({
   user_id: {
-    type: String,
+    type: Number,
     required: true
   },
   username: { 
@@ -15,7 +15,7 @@ const userSchema = new Schema({
     unique: true 
   },
   account_id: {
-    type: String,
+    type: Number,
     required: true
   },
   // role: { type: String, enum: ['USER', 'ADMIN'], default: 'USER' },
