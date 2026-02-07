@@ -10,5 +10,5 @@ export const dashboard = async (req, res) => {
   
   // Fetch products related to the balances
   const products = await Products.find({ ProductId: { $in: productIds } }).lean().exec();
-  return res.json({ message: "", payload: { totalBalance, products } });
+  return res.json({ message: "", payload: { totalBalance: totalBalance.toFixed(2), products } });
 };
