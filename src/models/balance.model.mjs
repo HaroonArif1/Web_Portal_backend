@@ -10,7 +10,7 @@ const balanceSchema = new Schema({
     required: true
   },
   Amount: {
-    type: Number,
+    type: Schema.Types.Double,
     required: true
   }
 }, { timestamps: true });

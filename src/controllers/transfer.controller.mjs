@@ -1,4 +1,5 @@
 import { Balance, TransferRequest, User } from "../models/index.mjs";
+// import { ensureDotsUser } from '../services/dotsUser.service.mjs';
 
 export const createTransfer = async (req, res) => {
   const { email, amount } = req.body;
@@ -27,13 +28,15 @@ export const createTransfer = async (req, res) => {
     return res.status(404).json({ message: 'No user exists with such email' });
   }
 
+  // await ensureDotsUser(targetUser.toJSON());
+
   targetUser.phone = req.body.phone;
   await targetUser.save();
   
   await TransferRequest.create({
+    amount,
     from: req.user.user_id,
     to: targetUser.user_id,
-    amount,
     sourceUser: req.user._id,
     destinationUser: targetUser._id
   });
