@@ -13,7 +13,7 @@ export const dashboard = async (req, res) => {
   const list = await TransferRequest.find({ from: user_id, status: {$in: ['PENDING', 'APPROVED']} }).lean().exec();
   
   const amount = list.map(item => item.amount) || [];
-  const transferedAmount = amount.reduce((acc, curr) => acc + +curr.amount, 0) || 0;
+  const transferedAmount = amount.reduce((acc, curr) => acc + curr, 0);
   
   return res.json({ message: "", payload: { totalBalance: (totalBalance - transferedAmount).toFixed(2), products: [] } });
 };

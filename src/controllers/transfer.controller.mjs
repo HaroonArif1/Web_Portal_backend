@@ -2,6 +2,14 @@ import { Balance, TransferRequest, User } from "../models/index.mjs";
 
 export const createTransfer = async (req, res) => {
   const { email, amount } = req.body;
+  
+  const targetUser = await User.findOne({ email_address: email });
+  if (!targetUser) {
+    return res.status(404).json({ message: 'No user exists with such email' });
+  }
+
+  if(email === targetUser.email_address)
+    return res.status(403).json({ message: 'User can not transfer amount to himself.' });
 
   const existingTransfer = await TransferRequest.findOne({
     from: req.user.user_id,
@@ -12,13 +20,10 @@ export const createTransfer = async (req, res) => {
     return res.status(400).json({ message: 'A pending transfer request already exists' });
   }
   
-  const targetUser = await User.findOne({ email_address: email });
-  if (!targetUser) {
-    return res.status(404).json({ message: 'No user exists with such email' });
-  }
 
   const checkBalance = await Balance.find({
     AccountId: req.user.account_id,
+    ProductId: {$in: [1, 35]}
   }).lean().exec();
 
   const bal = await checkBalance.map(item => {
@@ -27,7 +32,8 @@ export const createTransfer = async (req, res) => {
   });
   
   const balance = bal.reduce((acc, curr) => acc + +curr.Amount, 0) || 0;
-  if (balance <= amount) {
+  
+  if (parseFloat(balance).toFixed(2) <= parseFloat(amount).toFixed(2)) {
     return res.status(400).json({ message: 'Insufficient Balance' });
   }
 
