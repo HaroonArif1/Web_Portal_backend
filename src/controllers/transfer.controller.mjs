@@ -8,7 +8,7 @@ export const createTransfer = async (req, res) => {
     return res.status(404).json({ message: 'No user exists with such email' });
   }
 
-  if(email === targetUser.email_address)
+  if(email === req.user.email_address)
     return res.status(403).json({ message: 'User can not transfer amount to himself.' });
 
   const existingTransfer = await TransferRequest.findOne({
