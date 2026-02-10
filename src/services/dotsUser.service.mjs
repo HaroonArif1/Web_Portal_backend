@@ -10,7 +10,7 @@ export const ensureDotsUser = async (user) => {
     return user.dotsUserId;
   }
 
-  const idempotencyKey = `dots-user-${user._id}`;
+  // const idempotencyKey = `dots-user-${user._id}`;
   console.log({user});
   
   // Create user on Dots
@@ -18,13 +18,10 @@ export const ensureDotsUser = async (user) => {
     first_name: 'Jane',
     last_name: 'Doe',
     email: user.email_address,
-    phone: user.phone,
+    phone_number: user.phone,
+    country_code: "1",
     metadata: {
       internalUserId: user._id.toString()
-    }
-  }, {
-    headers: {
-      'Idempotency-Key': idempotencyKey
     }
   });
   console.log({dotResponse: response});
@@ -37,7 +34,7 @@ export const ensureDotsUser = async (user) => {
 
   // Save mapping
   user.dotsUserId = dotsUserId;
-  await user.save();
+  // await user.save();
 
   logger.info('Dots user created', {
     userId: user._id,
