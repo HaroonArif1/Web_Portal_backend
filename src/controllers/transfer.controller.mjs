@@ -8,7 +8,12 @@ export const createTransfer = async (req, res) => {
     AccountId: req.user.account_id,
   }).lean().exec();
 
-  const balance = checkBalance.reduce((acc, curr) => acc + +curr.Amount, 0) || 0;
+  const bal = await checkBalance.map(item => {
+    if(item.ProductId === 35) return ({ ...item, Amount: item.Amount * 0.112})
+      else return item;
+  });
+  
+  const balance = bal.reduce((acc, curr) => acc + +curr.Amount, 0) || 0;
   
   if (balance < amount) {
     return res.status(400).json({ message: 'Insufficient Balance' });

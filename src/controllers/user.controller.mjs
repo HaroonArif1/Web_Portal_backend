@@ -7,7 +7,7 @@ export const dashboard = async (req, res) => {
   const bal = await balances.map(item => {
     if(item.ProductId === 35) return ({ ...item, Amount: item.Amount * 0.112})
       else return item;
-  })
+  });
   const totalBalance = bal.reduce((acc, curr) => acc + +curr.Amount, 0) || 0;
   const productIds = bal.map(b => b.ProductId);
   
