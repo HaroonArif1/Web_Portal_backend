@@ -10,7 +10,7 @@ export const dashboard = async (req, res) => {
   });
   const totalBalance = bal.reduce((acc, curr) => acc + +curr.Amount, 0) || 0;
 
-  const list = await TransferRequest.find({ from: user_id, status: 'PENDING' }).lean().exec();
+  const list = await TransferRequest.find({ from: user_id, status: {$in: ['PENDING', ['APPROVED']]} }).lean().exec();
   
   const amount = list.map(item => item.amount) || [];
   const transferedAmount = amount.reduce((acc, curr) => acc + +curr.amount, 0) || 0;
