@@ -1,16 +1,23 @@
 import axios from 'axios';
 import { env } from '../config/env.mjs';
 
-const authToken = Buffer.from(
-  `${env.DOTS_CLIENT_ID}:${env.DOTS_API_KEY}`
-).toString('base64');
+// const authToken = Buffer.from(
+//   `${env.DOTS_CLIENT_ID}:${env.DOTS_API_KEY}`
+// ).toString('base64');
+
+// const authHeader = {
+//   headers: { 
+//     Authorization: `Basic ${Buffer.from(env.DOTS_API_KEY + ':').toString('base64')}`,
+//     'Content-Type': 'application/json'
+//   }
+// };
 
 export const dotsClient = axios.create({
-  baseURL: env.DOTS_API_BASE_URL, // e.g. https://api.dots.dev/v2
-  headers: {
-    Authorization: `Basic ${authToken}`,
+  baseURL: 'https://api.dots.dev/v2',
+  headers: { 
+    Authorization: `Basic ${Buffer.from(env.DOTS_API_KEY + ':').toString('base64')}`,
     'Content-Type': 'application/json'
-  },
+  }
   // timeout: 15000
 });
 
