@@ -5,7 +5,7 @@ const transferRequestSchema = new Schema({
   to: { type: String, required: true },
   sourceUser: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   destinationUser: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  amount: Number,
+  amount: Schema.Types.Double,
   status: { type: String, enum: ['PENDING', 'APPROVED', 'REJECTED', 'COMPLETED', 'FAILED'], default: 'PENDING' },
   providerTransactionId: String,
   approvedAt: Date,

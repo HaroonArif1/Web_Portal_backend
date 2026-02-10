@@ -1,24 +1,8 @@
 import { Balance, TransferRequest, User } from "../models/index.mjs";
-// import { ensureDotsUser } from '../services/dotsUser.service.mjs';
 
 export const createTransfer = async (req, res) => {
   const { email, amount } = req.body;
 
-  const checkBalance = await Balance.find({
-    AccountId: req.user.account_id,
-  }).lean().exec();
-
-  const bal = await checkBalance.map(item => {
-    if(item.ProductId === 35) return ({ ...item, Amount: item.Amount * 0.112})
-      else return item;
-  });
-  
-  const balance = bal.reduce((acc, curr) => acc + +curr.Amount, 0) || 0;
-  
-  if (balance < amount) {
-    return res.status(400).json({ message: 'Insufficient Balance' });
-  }
-  
   const existingTransfer = await TransferRequest.findOne({
     from: req.user.user_id,
     status: 'PENDING'
@@ -33,7 +17,19 @@ export const createTransfer = async (req, res) => {
     return res.status(404).json({ message: 'No user exists with such email' });
   }
 
-  // await ensureDotsUser(targetUser.toJSON());
+  const checkBalance = await Balance.find({
+    AccountId: req.user.account_id,
+  }).lean().exec();
+
+  const bal = await checkBalance.map(item => {
+    if(item.ProductId === 35) return ({ ...item, Amount: item.Amount * 0.112})
+      else return item;
+  });
+  
+  const balance = bal.reduce((acc, curr) => acc + +curr.Amount, 0) || 0;
+  if (balance <= amount) {
+    return res.status(400).json({ message: 'Insufficient Balance' });
+  }
 
   targetUser.phone = req.body.phone;
   await targetUser.save();
