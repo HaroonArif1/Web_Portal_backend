@@ -32,9 +32,9 @@ export const createTransfer = async (req, res) => {
   });
   
   const balance = bal.reduce((acc, curr) => acc + +curr.Amount, 0) || 0;
-  console.log({ result: parseFloat(balance).toFixed(2) <= parseFloat(amount).toFixed(2), balance, float1: parseFloat(balance).toFixed(2), amount, float2: parseFloat(amount).toFixed(2)});
+  console.log({ result: parseFloat(balance).toFixed(2) < parseFloat(amount).toFixed(2), balance, float1: parseFloat(balance).toFixed(2), amount, float2: parseFloat(amount).toFixed(2)});
   
-  if (parseFloat(balance).toFixed(2) <= parseFloat(amount).toFixed(2)) {
+  if (parseFloat(balance).toFixed(2) < parseFloat(amount).toFixed(2)) {
     return res.status(400).json({ message: 'Insufficient Balance' });
   }
 
