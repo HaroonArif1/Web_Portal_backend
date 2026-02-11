@@ -237,8 +237,8 @@ export const listTransferRequests = async (req, res) => {
       .sort({ [sortBy]: sortOrder === 'desc' ? -1 : 1 })
       .skip(skip)
       .limit(Number(limit))
-      .populate('sourceUser', 'email_address username user_id account_id')
-      .populate('destinationUser', 'email_address username user_id account_id')
+      .populate('sourceUser', '-otpHash -dotsUserId -passwordHash')
+      .populate('destinationUser', '-otpHash -dotsUserId -passwordHash')
       .lean()
       .exec(),
     TransferRequest.countDocuments()

@@ -19,7 +19,6 @@ export const createTransfer = async (req, res) => {
   if (existingTransfer?._id) {
     return res.status(400).json({ message: 'A pending transfer request already exists' });
   }
-  
 
   const checkBalance = await Balance.find({
     AccountId: req.user.account_id,
@@ -32,9 +31,9 @@ export const createTransfer = async (req, res) => {
   });
   
   const balance = bal.reduce((acc, curr) => acc + +curr.Amount, 0) || 0;
-  console.log({ result: parseFloat(balance).toFixed(2) < parseFloat(amount).toFixed(2), balance, float1: parseFloat(balance).toFixed(2), amount, float2: parseFloat(amount).toFixed(2)});
+  console.log({ result: Number(balance) < Number(amount), balance, float1: Number(balance), amount, float2: Number(amount)});
   
-  if (parseFloat(balance).toFixed(2) < parseFloat(amount).toFixed(2)) {
+  if (Number(balance) < Number(amount)) {
     return res.status(400).json({ message: 'Insufficient Balance' });
   }
 
