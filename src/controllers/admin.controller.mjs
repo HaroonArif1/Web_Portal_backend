@@ -209,8 +209,9 @@ export const listPendingTransfers = async (req, res) => {
     TransferRequest.find(match)
       .populate('userId', 'email')
       .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(Number(limit)),
+      // .skip(skip)
+      // .limit(Number(limit)),
+      ,
     TransferRequest.countDocuments(match)
   ]);
 
